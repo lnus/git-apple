@@ -3,138 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <link rel="stylesheet" href="style.css" type="text/css" charset="utf-8" />
+    <title>Bad Apple - GitHub</title>
   </head>
   <body>
     <div class="container">
-      <table class="grid" id="grid"></table>
+      <div>
+        <h2 id="contrib" class="contrib">556 contributions in the last year</h2>
+        <div class="container-2">
+          <table class="grid" id="grid"></table>
+          <span>Learn how we count contributions</span>
+        </div>
+      </div>
     </div>
   </body>
 
-  <script charset="utf-8">
-    function spawn_boxes(row, column) {
-      var grid = document.getElementById("grid");
-      var tbody = document.createElement("tbody");
-      grid.appendChild(tbody);
-      for (var i = 0; i < row; i++) {
-        var tr = tbody.appendChild(document.createElement("tr"));
-        tr.className = "tr";
-        for (var j = 0; j < column; j++) {
-          var box = document.createElement("td");
-          box.className = "box";
-          box.id = "box-" + i + "-" + j;
-          tr.appendChild(box);
-        }
-      }
-    }
-
-    spawn_boxes(30, 40);
-
-    function set_box_color(row, column, color) {
-      var box = document.getElementById("box-" + row + "-" + column);
-      box.style.backgroundColor = color;
-    }
-  </script>
-
-  <!----color-calendar-graph-day-L1-bg: #0e4429;-->
-  <!----color-calendar-graph-day-L2-bg: #006d32;-->
-  <!----color-calendar-graph-day-L3-bg: #26a641;-->
-  <!----color-calendar-graph-day-L4-bg: #39d353;-->
-  <!----color-calendar-graph-day-L2-border: rgba(255, 255, 255, 0.05);-->
-  <!-- gray: #272b33-->
-  <!-- the green random picker might not be the best way to do this, but it works for now -->
-  <script>
-    function get_random_green() {
-      var greens = {
-        "#0e4429": 700,
-        "#006d32": 1,
-        "#26a641": 1,
-        "#39d353": 1,
-      };
-
-      var total = 0;
-      for (var key in greens) {
-        total += greens[key];
-      }
-
-      var random = Math.floor(Math.random() * total);
-      var current = 0;
-      for (var key in greens) {
-        current += greens[key];
-        if (random < current) {
-          return key;
-        }
-      }
-
-      return "#0e4429";
-    }
-
-    var gray = "#272b33";
-    var greens = ["#0e4429", "#006d32", "#26a641", "#39d353"];
-
-    fetch("http://localhost:8000/frames.json")
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (frames) {
-        console.log(frames);
-        frames.forEach(function (frame, i) {
-          setTimeout(function () {
-            frame.forEach(function (row, i) {
-              row.forEach(function (color, j) {
-                if (color == 0) {
-                  color = get_random_green();
-                } else {
-                  color = gray;
-                }
-                set_box_color(i, j, color);
-              });
-            });
-          }, (1000 / 30) * i);
-        });
-      });
-  </script>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      padding: 0;
-      margin: 0;
-      background-color: #0a0c10;
-    }
-
-    .tr {
-      height: 11px;
-    }
-
-    .box {
-      width: 11px;
-      height: 11px;
-      border-radius: 2px;
-      outline: 1px solid rgba(39, 43, 51, 0.5);
-      outline-offset: -1px;
-    }
-
-    .grid {
-      border-spacing: 4px;
-      overflow: hidden;
-      background-color: #0a0c10;
-      padding: 20px;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-      border: 1px solid slategray;
-    }
-
-    .container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 100px;
-    }
-  </style>
+  <script src="script.js"></script>
 </html>
