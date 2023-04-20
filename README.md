@@ -1,13 +1,18 @@
-# Git Apple
+# Git Apple 🍏
 
 Bad apple, but as a GitHub contributions graph.
 
-It reads the frame data from the video, using `generate.py` to convert the frames into arrays of `0` or `1`.
+Check it out live [lnus.github.io/git-apple/](lnus.github.io/git-apple/)!
 
+## How does it work?
+
+It reads the frame data from the video, using `generate.py` to convert the frames into arrays of `0` or `1`.
 After this, the `script.js` reads these frames and colors the frames accordingly.
 
-It's pretty cool!
+Pretty neat!
 
-## Preview
+## Disclaimer about the code standard
 
-It's not hosted anywhere at the moment, unfortunately.
+The code is a bit hacky since I wrote the code in 4 hours while drinking with a friend.
+
+But hey, *it works*!
