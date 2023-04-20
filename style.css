@@ -1,6 +1,6 @@
 * {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
   color: rgb(240, 243, 246);
 }
 
@@ -117,8 +117,10 @@ details-menu {
   overflow-wrap: break-word;
   shape-rendering: geometricprecision;
   text-align: center;
+  background-color: #272b33;
+  transition: opacity 1s ease;
+  display: none;
 }
-
 
 .container {
   font-size: 14px;
@@ -151,8 +153,8 @@ details-menu {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
   font-size: 14px;
   line-height: 21px;
   overflow-wrap: break-word;
@@ -165,7 +167,6 @@ details-menu {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-
 
 .learn {
   justify-self: start;
@@ -210,7 +211,6 @@ details-menu {
   .display {
     outline: none;
   }
-
 
   .box {
     width: 6px;

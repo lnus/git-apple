@@ -1,17 +1,54 @@
-function spawn_boxes(row, column) {
+async function spawn_boxes(row, column, anim = true) {
   var grid = document.getElementById("grid");
-  var tbody = document.createElement("tbody");
+
+  // Attach to tbody if it already exists
+  var tbody = document.getElementById("tbody");
+  if (tbody == null) {
+    tbody = document.createElement("tbody");
+    tbody.id = "tbody";
+  }
+
   grid.appendChild(tbody);
-  for (var i = 0; i < row; i++) {
+
+  // Get latest box id (if any)
+  if (tbody.lastChild != null) {
+    var latest_box = tbody.lastChild.lastChild;
+    var latest_box_id = latest_box.id.split("-");
+    var starting_row = parseInt(latest_box_id[1]) + 1;
+  } else {
+    starting_row = 0;
+  }
+
+  // Add new boxes
+  for (var i = starting_row; i < row + starting_row; i++) {
     var tr = tbody.appendChild(document.createElement("tr"));
     tr.className = "tr";
     for (var j = 0; j < column; j++) {
       var box = document.createElement("td");
       box.className = "box";
       box.id = "box-" + i + "-" + j;
+      box.style.opacity = "0";
       tr.appendChild(box);
+
+      // Timeout opacity animation
+      if (anim) {
+        setTimeout(function (box) {
+          box.style.display = "table-cell"
+        }, i * 100, box);
+        setTimeout(function (box) {
+          box.style.opacity = "1";
+        }, i * 120, box);
+      } else {
+        box.style.display = "table-cell"
+        box.style.opacity = "1";
+      }
     }
   }
+
+  // Return promise when all boxes are added
+  return new Promise(function (resolve, reject) {
+    resolve();
+  });
 }
 
 function set_box_color(row, column, color) {
@@ -56,9 +93,12 @@ function set_volume() {
   }
 }
 
-spawn_boxes(30, 40);
+// Spawn initial boxes
+spawn_boxes(10, 40, false);
 
 const GRAY = "#272b33";
+
+// COLOR: WEIGHT OF OCCURENCE
 const ARR = create_arr({
   "#0e4429": 700,
   "#006d32": 75,
@@ -66,11 +106,14 @@ const ARR = create_arr({
   "#39d353": 1,
 });
 
+
 fetch("https://lnus.github.io/git-apple/frames.json")
   .then(function (response) {
     return response.json();
   })
-  .then(function (frames) {
+  .then(async function (frames) {
+    await spawn_boxes(20, 40);
+
     document.getElementById("volume").value = 0.0;
     document.getElementById("audio").volume = 0.0;
     frames.forEach(function (frame, i) {
