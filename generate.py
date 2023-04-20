@@ -1,6 +1,5 @@
 import cv2
 import imutils
-import time
 import json
 
 def draw_row(row):

@@ -19,34 +19,20 @@ function set_box_color(row, column, color) {
   box.style.backgroundColor = color;
 }
 
-function get_random_green() {
-  var greens = {
-    "#0e4429": 700,
-    "#006d32": 75,
-    "#26a641": 5,
-    "#39d353": 1,
-  };
-
-  var total = 0;
+function create_arr(greens) {
+  let arr = [];
   for (var key in greens) {
-    total += greens[key];
-  }
-
-  var random = Math.floor(Math.random() * total);
-  var current = 0;
-  for (var key in greens) {
-    current += greens[key];
-    if (random < current) {
-      return key;
+    for (var i = 0; i < greens[key]; i++) {
+      arr.push(key);
     }
   }
 
-  return "#0e4429";
+  return arr;
 }
 
-spawn_boxes(30, 40);
-
-var gray = "#272b33";
+function get_random_green(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 function set_volume() {
   var audio = document.getElementById("audio");
@@ -70,6 +56,15 @@ function set_volume() {
   }
 }
 
+spawn_boxes(30, 40);
+
+const GRAY = "#272b33";
+const ARR = create_arr({
+  "#0e4429": 700,
+  "#006d32": 75,
+  "#26a641": 5,
+  "#39d353": 1,
+});
 
 fetch("https://lnus.github.io/git-apple/frames.json")
   .then(function (response) {
@@ -87,9 +82,9 @@ fetch("https://lnus.github.io/git-apple/frames.json")
           row.forEach(function (color, j) {
             if (color == 0) {
               contributions += 1;
-              color = get_random_green();
+              color = get_random_green(ARR);
             } else {
-              color = gray;
+              color = GRAY;
             }
             set_box_color(i, j, color);
           });
