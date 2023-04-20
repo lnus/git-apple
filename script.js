@@ -1,17 +1,57 @@
-function spawn_boxes(row, column) {
+async function spawn_boxes(row, column, anim = true, delay = 0) {
   var grid = document.getElementById("grid");
-  var tbody = document.createElement("tbody");
-  grid.appendChild(tbody);
-  for (var i = 0; i < row; i++) {
-    var tr = tbody.appendChild(document.createElement("tr"));
-    tr.className = "tr";
-    for (var j = 0; j < column; j++) {
-      var box = document.createElement("td");
-      box.className = "box";
-      box.id = "box-" + i + "-" + j;
-      tr.appendChild(box);
-    }
+
+  // Attach to tbody if it already exists
+  var tbody = document.getElementById("tbody");
+
+  if (tbody == null) {
+    tbody = document.createElement("tbody");
+    tbody.id = "tbody";
   }
+
+  grid.appendChild(tbody);
+
+  // Get latest box id (if any)
+  if (tbody.lastChild != null) {
+    var latest_box = tbody.lastChild.lastChild;
+    var latest_box_id = latest_box.id.split("-");
+    var starting_row = parseInt(latest_box_id[1]) + 1;
+  } else {
+    starting_row = 0;
+  }
+
+  const anime = window.anime;
+
+  // Add new boxes
+  setTimeout(function () {
+    for (var i = starting_row; i < row + starting_row; i++) {
+      var tr = tbody.appendChild(document.createElement("tr"));
+      tr.className = "tr";
+
+      for (var j = 0; j < column; j++) {
+        var box = document.createElement("td");
+        box.className = "box";
+        box.id = "box-" + i + "-" + j;
+        tr.appendChild(box);
+
+        // Animate entry of boxes
+        if (anim) {
+
+          anime({
+            targets: box,
+            opacity: [0, 1],
+            scale: [0, 0, 1],
+            duration: 100 * (i),
+          })
+        }
+      }
+    }
+  }, delay);
+
+  // Return promise when all boxes are added
+  return new Promise(function (resolve, _) {
+    resolve();
+  });
 }
 
 function set_box_color(row, column, color) {
@@ -56,9 +96,52 @@ function set_volume() {
   }
 }
 
-spawn_boxes(30, 40);
+function unmute_fast() {
+  var audio = document.getElementById("audio");
+  audio.muted = false;
+  audio.volume = 0.5;
+  document.getElementById("volume").value = 0.5;
+  document.getElementById("muted").remove();
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const anime = window.anime;
+
+function create_muted() {
+  muted = document.getElementById("muted");
+  muted.addEventListener("click", () => {
+    anime({
+      targets: muted,
+      opacity: [0.7, 0.0],
+      duration: 200,
+      complete: unmute_fast,
+    })
+  });
+
+  muted.addEventListener("mouseenter", () => {
+    anime({
+      targets: muted,
+      opacity: [0.0, 0.7],
+      duration: 1000,
+    });
+  });
+
+  muted.addEventListener("mouseleave", () => {
+    anime({
+      targets: muted,
+      opacity: [0.7, 0.0],
+      duration: 1000,
+    });
+  });
+}
+
 
 const GRAY = "#272b33";
+
+// COLOR: WEIGHT OF OCCURENCE
 const ARR = create_arr({
   "#0e4429": 700,
   "#006d32": 75,
@@ -66,13 +149,25 @@ const ARR = create_arr({
   "#39d353": 1,
 });
 
+spawn_boxes(10, 40, false);
+
+
 fetch("https://lnus.github.io/git-apple/frames.json")
   .then(function (response) {
     return response.json();
   })
-  .then(function (frames) {
+  .then(async function (frames) {
+    var audio = document.getElementById("audio");
+
+    await sleep(1000);
+    await spawn_boxes(20, 40, true);
+
+    audio.play();
     document.getElementById("volume").value = 0.0;
-    document.getElementById("audio").volume = 0.0;
+    audio.volume = 0.0;
+
+    create_muted();
+
     frames.forEach(function (frame, i) {
       setTimeout(function () {
         var contributions = 0;
