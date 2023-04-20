@@ -33,17 +33,74 @@ summary:hover {
 }
 
 details-menu {
-  background-color: #0a0c10;
-  outline: 1px solid rgba(240, 243, 246, 0.5);
-  border-radius: 6px;
-  font-size: 14px;
-  list-style-image: none;
-  list-style-position: outside;
-  list-style-type: none;
+  width: 100%;
   position: absolute;
-  width: 50%;
-  padding: 10px;
-  z-index: 80;
+  padding: 1rem;
+  top: 30px;
+  left: -32px;
+  background-color: #0a0c10;
+  border-radius: 6px;
+}
+
+#audio-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider {
+  --thumb-color: #272b33;
+  background-color: #0a0c10;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 11px;
+  border-radius: 4px;
+  outline: 1px solid rgba(240, 243, 246, 0.5);
+  opacity: 1;
+  padding: 2px;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none; /* Override default look */
+  width: 11px;
+  height: 11px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border: none;
+  cursor: pointer; /* Cursor on hover */
+  display: inline-block;
+  background-color: var(--thumb-color);
+}
+
+.slider::-moz-range-thumb {
+  appearance: none;
+  -webkit-appearance: none; /* Override default look */
+  width: 11px;
+  height: 11px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border: none;
+  text-align: center;
+  cursor: pointer; /* Cursor on hover */
+  background-color: var(--thumb-color);
+}
+
+#mute {
+  font-size: 2rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  padding: 1rem;
+}
+
+#mute:hover {
+  font-size: 3rem;
 }
 
 .box {
@@ -78,10 +135,6 @@ details-menu {
   margin-top: 4px;
   overflow-wrap: break-word;
   position: relative;
-  transition-delay: 0s;
-  transition-duration: 0.08s;
-  transition-property: color, background-color, box-shadow, border-color;
-  transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .contrib {

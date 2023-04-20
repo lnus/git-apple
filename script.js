@@ -48,12 +48,36 @@ spawn_boxes(30, 40);
 
 var gray = "#272b33";
 
+function set_volume() {
+  var audio = document.getElementById("audio");
+  var vol = document.getElementById("volume");
+  audio.volume = vol.value;
+
+  if (audio.muted) {
+    audio.muted = false;
+  }
+
+  if (audio.volume == 0) {
+    vol.style.setProperty("--thumb-color", "#272b33")
+  } else if (audio.volume < 0.25) {
+    vol.style.setProperty("--thumb-color", "#0e4429")
+  } else if (audio.volume < 0.5) {
+    vol.style.setProperty("--thumb-color", "#006d32")
+  } else if (audio.volume < 0.75) {
+    vol.style.setProperty("--thumb-color", "#26a641")
+  } else {
+    vol.style.setProperty("--thumb-color", "#39d353")
+  }
+}
+
+
 fetch("https://lnus.github.io/git-apple/frames.json")
   .then(function (response) {
     return response.json();
   })
   .then(function (frames) {
-    console.log(frames);
+    document.getElementById("volume").value = 0.0;
+    document.getElementById("audio").volume = 0.0;
     frames.forEach(function (frame, i) {
       setTimeout(function () {
         var green_boxes = 0;
