@@ -151,7 +151,7 @@ const ARR = create_arr({
 
 spawn_boxes(10, 40);
 
-fetch("https://lnus.github.io/git-apple/frames.json")
+fetch("https://lnus.github.io/git-apple/assets/frames.json")
   .then(function (response) {
     return response.json();
   })
