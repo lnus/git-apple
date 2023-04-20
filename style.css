@@ -187,3 +187,49 @@ details-menu {
 .bot div {
   justify-self: end;
 }
+
+/* An attempt to make it responsive enough to be played on a phone */
+
+@media screen and (max-width: 600px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    font-size: 14px;
+    line-height: 21px;
+    outline: none;
+    width: fit-content;
+  }
+
+  .display {
+    outline: none;
+  }
+
+
+  .box {
+    width: 6px;
+    height: 6px;
+  }
+
+  .contrib {
+    padding: 10px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  summary {
+    font-size: 10px;
+    line-height: 18px;
+    padding: 10px;
+  }
+
+  table {
+    border-spacing: 3px;
+  }
+}

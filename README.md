@@ -2,7 +2,7 @@
 
 Bad apple, but as a GitHub contributions graph.
 
-Check it out live [lnus.github.io/git-apple/](lnus.github.io/git-apple/)!
+Check it out [LIVE 🔴](https://lnus.github.io/git-apple/)!
 
 ## How does it work?
 
