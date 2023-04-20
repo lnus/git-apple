@@ -98,9 +98,11 @@ function set_volume() {
 
 function unmute_fast() {
   var audio = document.getElementById("audio");
+  var vol = document.getElementById("volume");
   audio.muted = false;
   audio.volume = 0.5;
-  document.getElementById("volume").value = 0.5;
+  vol.value = 0.5;
+  vol.style.setProperty("--thumb-color", "#26a641")
   document.getElementById("muted").remove();
 }
 
