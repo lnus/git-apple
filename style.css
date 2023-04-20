@@ -215,38 +215,49 @@ details-menu {
   .container {
     font-size: 14px;
     line-height: 21px;
-    outline: none;
     width: fit-content;
   }
 
-  .display {
-    outline: none;
-  }
 
   .box {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
   }
 
   .contrib {
-    padding: 10px;
-    font-size: 12px;
+    align-self: center;
+    margin: 10px;
+    font-size: 10px;
     line-height: 18px;
   }
 
   summary {
+    align-self: center;
     font-size: 10px;
     line-height: 18px;
-    padding: 10px;
+    margin: 10px;
+  }
+
+  details {
+    align-self: center;
+    font-size: 10px;
+    line-height: 18px;
+    margin: 10px;
   }
 
   table {
-    border-spacing: 3px;
+    border-spacing: 2px;
   }
 
   .muted {
     height: 100%;
     width: 100%;
     opacity: 0.2;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .display {
+    outline: none;
   }
 }
