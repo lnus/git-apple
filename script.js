@@ -48,7 +48,7 @@ spawn_boxes(30, 40);
 
 var gray = "#272b33";
 
-fetch("http://localhost:8000/frames.json")
+fetch("https://lnus.github.io/git-apple/frames.json")
   .then(function (response) {
     return response.json();
   })
@@ -56,18 +56,19 @@ fetch("http://localhost:8000/frames.json")
     console.log(frames);
     frames.forEach(function (frame, i) {
       setTimeout(function () {
-        var green = 0;
+        var green_boxes = 0;
         var contrib = document.getElementById("contrib");
+
         frame.forEach(function (row, i) {
           row.forEach(function (color, j) {
             if (color == 0) {
-              green += 1;
+              green_boxes += 1;
               color = get_random_green();
             } else {
               color = gray;
             }
             set_box_color(i, j, color);
-            contrib.innerHTML = green + " contributions in the last year";
+            contrib.innerHTML = green_boxes + " contributions in the last year";
           });
         });
       }, (1000 / 30) * i);
