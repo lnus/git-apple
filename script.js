@@ -47,7 +47,6 @@ function get_random_green() {
 spawn_boxes(30, 40);
 
 var gray = "#272b33";
-var greens = ["#0e4429", "#006d32", "#26a641", "#39d353"];
 
 fetch("http://localhost:8000/frames.json")
   .then(function (response) {

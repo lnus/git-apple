@@ -86,3 +86,17 @@ table {
   text-decoration: none;
   margin-left: 14px;
 }
+
+.bot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.bot a {
+  justify-self: start;
+}
+
+.bot div {
+  justify-self: end;
+  margin-right: 14px;
+}
