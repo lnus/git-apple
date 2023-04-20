@@ -64,7 +64,8 @@ details-menu {
 
 .slider::-webkit-slider-thumb {
   appearance: none;
-  -webkit-appearance: none; /* Override default look */
+  -webkit-appearance: none;
+  /* Override default look */
   width: 11px;
   height: 11px;
   border-bottom-left-radius: 2px;
@@ -72,14 +73,16 @@ details-menu {
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   border: none;
-  cursor: pointer; /* Cursor on hover */
+  cursor: pointer;
+  /* Cursor on hover */
   display: inline-block;
   background-color: var(--thumb-color);
 }
 
 .slider::-moz-range-thumb {
   appearance: none;
-  -webkit-appearance: none; /* Override default look */
+  -webkit-appearance: none;
+  /* Override default look */
   width: 11px;
   height: 11px;
   border-bottom-left-radius: 2px;
@@ -88,19 +91,9 @@ details-menu {
   border-top-right-radius: 2px;
   border: none;
   text-align: center;
-  cursor: pointer; /* Cursor on hover */
+  cursor: pointer;
+  /* Cursor on hover */
   background-color: var(--thumb-color);
-}
-
-#mute {
-  font-size: 2rem;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  padding: 1rem;
-}
-
-#mute:hover {
-  font-size: 3rem;
 }
 
 .box {
@@ -129,8 +122,8 @@ details-menu {
   right: 0;
   margin: 0 auto;
   border-radius: 1em;
-  height: 60%;
-  width: 100%;
+  height: 50%;
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
