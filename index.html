@@ -13,6 +13,7 @@
 </head>
 
 <body>
+
   <div class="container">
     <div class="top">
       <h2 id="contrib" class="contrib">0 contributions in the last year</h2>
@@ -31,7 +32,12 @@
       </details>
     </div>
     <div>
+
       <div class="display">
+        <div class="muted" id="muted">
+          <h1>🔇</h1>
+        </div>
+
         <table class="grid" id="grid"></table>
         <div class="bot">
           <a class="learn" href="https://github.com/lnus/git-apple">Learn how I made this</a>
@@ -71,12 +77,11 @@
 
   </div>
 
-
-  <audio id="audio" controls autoplay muted style="display: none;">
+  <audio id="audio" controls muted style="display: none;">
     <source src="ba.mp3" type="audio/mpeg" />
   </audio>
+  <script src="animejs/lib/anime.min.js"></script>
+  <script src="script.js"></script>
 </body>
-
-<script src="script.js"></script>
 
 </html>

@@ -1,8 +1,9 @@
-async function spawn_boxes(row, column, anim = true) {
+async function spawn_boxes(row, column, anim = true, delay = 0) {
   var grid = document.getElementById("grid");
 
   // Attach to tbody if it already exists
   var tbody = document.getElementById("tbody");
+
   if (tbody == null) {
     tbody = document.createElement("tbody");
     tbody.id = "tbody";
@@ -20,33 +21,34 @@ async function spawn_boxes(row, column, anim = true) {
   }
 
   // Add new boxes
-  for (var i = starting_row; i < row + starting_row; i++) {
-    var tr = tbody.appendChild(document.createElement("tr"));
-    tr.className = "tr";
-    for (var j = 0; j < column; j++) {
-      var box = document.createElement("td");
-      box.className = "box";
-      box.id = "box-" + i + "-" + j;
-      box.style.opacity = "0";
-      tr.appendChild(box);
+  setTimeout(function () {
+    for (var i = starting_row; i < row + starting_row; i++) {
+      var tr = tbody.appendChild(document.createElement("tr"));
+      tr.className = "tr";
 
-      // Timeout opacity animation
-      if (anim) {
-        setTimeout(function (box) {
-          box.style.display = "table-cell"
-        }, i * 100, box);
-        setTimeout(function (box) {
-          box.style.opacity = "1";
-        }, i * 120, box);
-      } else {
-        box.style.display = "table-cell"
-        box.style.opacity = "1";
+      for (var j = 0; j < column; j++) {
+        var box = document.createElement("td");
+        box.className = "box";
+        box.id = "box-" + i + "-" + j;
+        tr.appendChild(box);
+
+        // Animate entry of boxes
+        if (anim) {
+          const anime = window.anime;
+
+          anime({
+            targets: box,
+            opacity: [0, 1],
+            scale: [0, 0, 1],
+            duration: 100 * (i),
+          })
+        }
       }
     }
-  }
+  }, delay);
 
   // Return promise when all boxes are added
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, _) {
     resolve();
   });
 }
@@ -93,8 +95,47 @@ function set_volume() {
   }
 }
 
-// Spawn initial boxes
-spawn_boxes(10, 40, false);
+function unmute_fast() {
+  var audio = document.getElementById("audio");
+  audio.muted = false;
+  audio.volume = 0.5;
+  document.getElementById("volume").value = 0.5;
+  document.getElementById("muted").remove();
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const anime = window.anime;
+function create_muted() {
+  muted = document.getElementById("muted");
+  muted.addEventListener("click", () => {
+    anime({
+      targets: muted,
+      opacity: [0.7, 0.0],
+      duration: 200,
+      complete: unmute_fast,
+    })
+  });
+
+  muted.addEventListener("mouseenter", () => {
+    anime({
+      targets: muted,
+      opacity: [0.0, 0.7],
+      duration: 1000,
+    });
+  });
+
+  muted.addEventListener("mouseleave", () => {
+    anime({
+      targets: muted,
+      opacity: [0.7, 0.0],
+      duration: 1000,
+    });
+  });
+}
+
 
 const GRAY = "#272b33";
 
@@ -106,16 +147,24 @@ const ARR = create_arr({
   "#39d353": 1,
 });
 
+spawn_boxes(10, 40, false);
 
 fetch("https://lnus.github.io/git-apple/frames.json")
   .then(function (response) {
     return response.json();
   })
   .then(async function (frames) {
-    await spawn_boxes(20, 40);
+    var audio = document.getElementById("audio");
 
+    await sleep(1000);
+    await spawn_boxes(20, 40, true);
+
+    audio.play();
     document.getElementById("volume").value = 0.0;
-    document.getElementById("audio").volume = 0.0;
+    audio.volume = 0.0;
+
+    create_muted();
+
     frames.forEach(function (frame, i) {
       setTimeout(function () {
         var contributions = 0;
