@@ -40,6 +40,7 @@ details-menu {
   left: -32px;
   background-color: #0a0c10;
   border-radius: 6px;
+  z-index: 1;
 }
 
 #audio-controls {
@@ -115,25 +116,27 @@ details-menu {
 
 .muted {
   background-color: #0a0c10;
+  font-size: x-large;
   opacity: 0;
-  position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  margin: 0 auto;
-  border-radius: 1em;
-  height: 50%;
-  width: 50%;
-  display: flex;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 1;
+  cursor: pointer;
 }
 
 .container {
   font-size: 14px;
   line-height: 21px;
   width: fit-content;
+  opacity: 0;
+  position: relative;
 }
 
 .container details {

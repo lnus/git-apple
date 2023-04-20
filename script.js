@@ -1,4 +1,4 @@
-async function spawn_boxes(row, column, anim = true, delay = 0) {
+function spawn_boxes(row, column, visible = true) {
   var grid = document.getElementById("grid");
 
   // Attach to tbody if it already exists
@@ -20,43 +20,41 @@ async function spawn_boxes(row, column, anim = true, delay = 0) {
     starting_row = 0;
   }
 
-  const anime = window.anime;
+  let boxes = []
+  let rows = []
 
   // Add new boxes
-  setTimeout(function () {
-    for (var i = starting_row; i < row + starting_row; i++) {
-      var tr = tbody.appendChild(document.createElement("tr"));
-      tr.className = "tr";
+  for (var i = starting_row; i < row + starting_row; i++) {
+    var tr = tbody.appendChild(document.createElement("tr"));
+    tr.className = "tr";
+    rows.push(tr);
 
-      for (var j = 0; j < column; j++) {
-        var box = document.createElement("td");
-        box.className = "box";
-        box.id = "box-" + i + "-" + j;
-        tr.appendChild(box);
+    for (var j = 0; j < column; j++) {
+      var box = document.createElement("td");
+      box.className = "box";
+      box.id = "box-" + i + "-" + j;
 
-        // Animate entry of boxes
-        if (anim) {
 
-          anime({
-            targets: box,
-            opacity: [0, 1],
-            scale: [0, 0, 1],
-            duration: 100 * (i),
-          })
-        }
+      if (!visible) {
+        box.style.opacity = 0;
+        box.style.display = "none";
+        tr.style.display = "none";
       }
-    }
-  }, delay);
 
-  // Return promise when all boxes are added
-  return new Promise(function (resolve, _) {
-    resolve();
-  });
+      boxes.push(box);
+      console.log(box)
+
+      tr.appendChild(box);
+    }
+  }
+
+  return [boxes, rows];
 }
 
 function set_box_color(row, column, color) {
   var box = document.getElementById("box-" + row + "-" + column);
   box.style.backgroundColor = color;
+  return box;
 }
 
 function create_arr(greens) {
@@ -114,11 +112,12 @@ const anime = window.anime;
 
 function create_muted() {
   muted = document.getElementById("muted");
+  muted.style.display = "flex";
   muted.addEventListener("click", () => {
     anime({
       targets: muted,
       opacity: [0.7, 0.0],
-      duration: 200,
+      duration: 100,
       complete: unmute_fast,
     })
   });
@@ -126,55 +125,97 @@ function create_muted() {
   muted.addEventListener("mouseenter", () => {
     anime({
       targets: muted,
-      opacity: [0.0, 0.7],
-      duration: 1000,
+      opacity: [0.0, 0.5],
+      delay: anime.stagger(100)
     });
   });
 
   muted.addEventListener("mouseleave", () => {
     anime({
       targets: muted,
-      opacity: [0.7, 0.0],
-      duration: 1000,
+      opacity: [0.5, 0.0],
+      delay: anime.stagger(100)
     });
   });
 }
-
 
 const GRAY = "#272b33";
 
 // COLOR: WEIGHT OF OCCURENCE
 const ARR = create_arr({
-  "#0e4429": 700,
-  "#006d32": 75,
-  "#26a641": 5,
+  "#0e4429": 1000,
+  "#006d32": 100,
+  "#26a641": 10,
   "#39d353": 1,
 });
 
-spawn_boxes(10, 40, false);
-
+spawn_boxes(10, 40);
 
 fetch("https://lnus.github.io/git-apple/frames.json")
   .then(function (response) {
     return response.json();
   })
   .then(async function (frames) {
+    // animate in container when loaded
+    var c = document.getElementById("container");
+    anime({
+      targets: c,
+      opacity: [0, 1],
+      delay: anime.stagger(100)
+    })
+
     var audio = document.getElementById("audio");
+    var boxes = []
+    var contrib = document.getElementById("contrib");
+    var contributions = 0;
+    // Randmoize the first 10x40 boxes
+    for (var i = 0; i < 10; i++) {
+      for (var j = 0; j < 40; j++) {
+        // Either gray or random green
+        // Gray being more common than green
+        if (Math.random() < 0.8) {
+          boxes.push(set_box_color(i, j, GRAY));
+        } else {
+          boxes.push(set_box_color(i, j, get_random_green(ARR)));
+          contributions += 1;
+        }
+      }
+    }
+    contrib.innerHTML = contributions + " contributions in the last year";
 
-    await sleep(1000);
-    await spawn_boxes(20, 40, true);
 
+    // Spawn remaining boxes
+    var res = spawn_boxes(20, 40, false);
+    res[0].map(box => boxes.push(box));
+
+    await sleep(2000);
+
+    // Animate in all boxes
+    anime({
+      targets: boxes,
+      backgroundColor: GRAY,
+      opacity: 1.0,
+      scale: 1,
+      delay: function (el, i) {
+        el.closest("tr").style.display = "";
+        el.style.display = "";
+        return i * 1.5;
+      }
+    });
+
+    await sleep(boxes.length * 1.5);
+
+    // Start playing audio
     audio.play();
     document.getElementById("volume").value = 0.0;
     audio.volume = 0.0;
 
+    // Create the muted overlay
     create_muted();
 
     frames.forEach(function (frame, i) {
       setTimeout(function () {
-        var contributions = 0;
-        var contrib = document.getElementById("contrib");
-
+        contributions = 0;
         frame.forEach(function (row, i) {
           row.forEach(function (color, j) {
             if (color == 0) {
