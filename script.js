@@ -80,21 +80,22 @@ fetch("https://lnus.github.io/git-apple/frames.json")
     document.getElementById("audio").volume = 0.0;
     frames.forEach(function (frame, i) {
       setTimeout(function () {
-        var green_boxes = 0;
+        var contributions = 0;
         var contrib = document.getElementById("contrib");
 
         frame.forEach(function (row, i) {
           row.forEach(function (color, j) {
             if (color == 0) {
-              green_boxes += 1;
+              contributions += 1;
               color = get_random_green();
             } else {
               color = gray;
             }
             set_box_color(i, j, color);
-            contrib.innerHTML = green_boxes + " contributions in the last year";
           });
         });
+
+        contrib.innerHTML = contributions + " contributions in the last year";
       }, (1000 / 30) * i);
     });
   });
