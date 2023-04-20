@@ -19,3 +19,7 @@ Performance-wise, not perfect. Might rewrite this in the future, but I'm fairly 
 The code is a bit hacky since I wrote the code in 4 hours while drinking with a friend.
 
 But hey, *it works*! 🎉
+
+### A vow about the code standard.
+
+I vow to make the new code just as hacky and ugly as the one which lived before it.
