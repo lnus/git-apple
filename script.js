@@ -20,6 +20,8 @@ async function spawn_boxes(row, column, anim = true, delay = 0) {
     starting_row = 0;
   }
 
+  const anime = window.anime;
+
   // Add new boxes
   setTimeout(function () {
     for (var i = starting_row; i < row + starting_row; i++) {
@@ -34,7 +36,6 @@ async function spawn_boxes(row, column, anim = true, delay = 0) {
 
         // Animate entry of boxes
         if (anim) {
-          const anime = window.anime;
 
           anime({
             targets: box,
@@ -108,6 +109,7 @@ function sleep(ms) {
 }
 
 const anime = window.anime;
+
 function create_muted() {
   muted = document.getElementById("muted");
   muted.addEventListener("click", () => {
@@ -148,6 +150,7 @@ const ARR = create_arr({
 });
 
 spawn_boxes(10, 40, false);
+
 
 fetch("https://lnus.github.io/git-apple/frames.json")
   .then(function (response) {
